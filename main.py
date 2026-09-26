@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -37,8 +38,7 @@ def calculate_metrics(embeddings: np.ndarray):
 
 @app.get("/")
 def root():
-    return {"message": "Embedding Comparison Playground API is running"}
-
+    return FileResponse("static/index.html")
 
 @app.post("/compare")
 def compare_embeddings(request: EmbeddingRequest):
