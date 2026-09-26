@@ -3,7 +3,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from sentence_transformers import SentenceTransformer
+from fastembed import TextEmbedding
 from sklearn.metrics.pairwise import cosine_similarity, euclidean_distances
 import numpy as np
 
@@ -20,9 +20,13 @@ app.add_middleware(
 # Two small, practical open-source embedding models.
 # MiniLM: 384 dimensions
 # BGE-small: 384 dimensions
-minilm = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-bge = SentenceTransformer("BAAI/bge-small-en-v1.5")
+minilm = TextEmbedding(
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
+)
 
+bge = TextEmbedding(
+    model_name="BAAI/bge-small-en-v1.5"
+)
 
 class EmbeddingRequest(BaseModel):
     chunks: list[str] = Field(..., min_length=2, max_length=3)
@@ -47,8 +51,8 @@ def compare_embeddings(request: EmbeddingRequest):
     if any(not c for c in chunks):
         return {"error": "All chunks must contain text."}
 
-    mini_embeddings = minilm.encode(chunks, convert_to_numpy=True)
-    bge_embeddings = bge.encode(chunks, convert_to_numpy=True)
+    mini_embeddings = np.array(list(minilm.embed(chunks)))
+    bge_embeddings = np.array(list(bge.embed(chunks)))
 
     return {
         "chunks": chunks,
