@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Embedding Comparison Playground</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <p class="eyebrow">Embedding Playground</p>
+      <h1>Compare Embedding Models</h1>
+      <p class="subtitle">
+        Enter up to 3 sentences and compare MiniLM vs BGE using
+        cosine similarity, Euclidean distance and dot product.
+      </p>
+    </header>
+
+    <section class="input-card">
+      <div class="section-title">
+        <h2>Enter Your Sentences</h2>
+        <span>3 chunks</span>
+      </div>
+
+      <label>Chunk 1</label>
+      <textarea id="chunk1" placeholder="Example: The company allows 20 days of annual leave."></textarea>
+
+      <label>Chunk 2</label>
+      <textarea id="chunk2" placeholder="Example: Employees receive twenty annual vacation days."></textarea>
+
+      <label>Chunk 3</label>
+      <textarea id="chunk3" placeholder="Example: Python is commonly used for machine learning."></textarea>
+
+      <button id="compareBtn" onclick="compareEmbeddings()">Compare Embeddings</button>
+      <p id="status"></p>
+    </section>
+
+    <section id="results" class="results hidden">
+      <div class="model-grid">
+        <div class="model-card mini">
+          <h2>MiniLM</h2>
+          <p>all-MiniLM-L6-v2</p>
+          <strong id="miniDim">384 dimensions</strong>
+        </div>
+
+        <div class="model-card bge">
+          <h2>BGE</h2>
+          <p>bge-small-en-v1.5</p>
+          <strong id="bgeDim">384 dimensions</strong>
+        </div>
+      </div>
+
+      <div class="metric-section">
+        <h2>Cosine Similarity Matrix</h2>
+        <div class="two-columns">
+          <div class="matrix-card">
+            <h3>MiniLM</h3>
+            <div id="miniCosine"></div>
+          </div>
+          <div class="matrix-card">
+            <h3>BGE</h3>
+            <div id="bgeCosine"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="metric-section">
+        <h2>Euclidean Distance Matrix</h2>
+        <div class="two-columns">
+          <div class="matrix-card">
+            <h3>MiniLM</h3>
+            <div id="miniEuclidean"></div>
+          </div>
+          <div class="matrix-card">
+            <h3>BGE</h3>
+            <div id="bgeEuclidean"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="metric-section">
+        <h2>Dot Product Matrix</h2>
+        <div class="two-columns">
+          <div class="matrix-card">
+            <h3>MiniLM</h3>
+            <div id="miniDot"></div>
+          </div>
+          <div class="matrix-card">
+            <h3>BGE</h3>
+            <div id="bgeDot"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
